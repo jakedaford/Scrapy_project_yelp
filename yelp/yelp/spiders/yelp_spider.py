@@ -52,9 +52,21 @@ class YelpSpider(Spider):
 			yield Request(url=url, callback=self.parse_restaurant_reviews_page)
 
 	def parse_restaurant_reviews_page(self, response):
-		print('on a reviews page')
-		
+		reviews = response.xpath('//div[@class = "review review--with-sidebar"]')
+		restaurant = response.xpath('//h1[@class = "biz-page-title embossed-text-white shortenough"]/text()').extract_first().strip()
 
+		for review in reviews:
+			rating = 
+			text = 
+			date = 
+
+			item = YelpItem()
+			item['restaurant'] = restaurant
+			item['rating'] = rating
+			item['text'] = text
+			item['date'] = date
+
+			yield item
 
 
 
