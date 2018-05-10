@@ -15,3 +15,4 @@ class YelpItem(scrapy.Item):
     rating = scrapy.Field()
     text = scrapy.Field()
     date = scrapy.Field()
+    address = scrapy.Field()

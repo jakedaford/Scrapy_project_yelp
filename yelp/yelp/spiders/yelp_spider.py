@@ -44,7 +44,7 @@ class YelpSpider(Spider):
 		text = response.xpath('//span[@class = "review-count rating-qualifier"]/text()').extract_first()
 		#total = map(lambda x: int(x), re.findall('\d+', text))
 		total = int(re.findall('\d+', text)[0])
-		restaurant_review_urls = [truncated_url + '?start=' + str(x) for x in range(0, total, 20)]
+		restaurant_review_urls = [truncated_url + '?start=' + str(x) for x in range(0, 2, 20)]
 
 		# Yield the requests to the restaurant reviews pages,
 		# using parse_restaurant_reviews_page function to parse the response
@@ -53,20 +53,25 @@ class YelpSpider(Spider):
 
 	def parse_restaurant_reviews_page(self, response):
 		reviews = response.xpath('//div[@class = "review review--with-sidebar"]')
-		restaurant = response.xpath('//h1[@class = "biz-page-title embossed-text-white shortenough"]/text()').extract_first().strip()
+		restaurant = response.xpath('//div[@class = "biz-page-header-left claim-status"]/div/h1/text()').extract_first().strip()
+		# this address is too much and will need to be munged later
+		address = response.xpath('//address/text()').extract()
+		print(restaurant)
 
-		for review in reviews:
-			rating = 
-			text = 
-			date = 
+		# for review in reviews:
+		# 	rating = 
+		# 	text = 
+		# 	date = review.xpath('.//span[@class="rating-qualifier"]/text()').extract_first().strip()
 
-			item = YelpItem()
-			item['restaurant'] = restaurant
-			item['rating'] = rating
-			item['text'] = text
-			item['date'] = date
+		# 	item = YelpItem()
+		# 	item['restaurant'] = restaurant
+		# 	item['rating'] = rating
+		# 	item['text'] = text
+		# 	item['date'] = date
+		#	item['address'] = address
 
-			yield item
+		# 	yield item
+
 
 
 
