@@ -32,13 +32,27 @@ class YelpSpider(Spider):
 		# Yield the requests to the restaurant pages,
 		# using parse_restaurant_page function to parse the response
 		for url in restaurant_urls:
-			yield Request(url=url, callback=self.parse_restaurant_page)
+			yield Request(url=url, callback=self.parse_restaurant_page, meta = {
+				'current_url':url
+				})
 
 	def parse_restaurant_page(self, response):
+		current_url = response.meta['current_url']
+		# so we can append
+		truncated_url = re.search('^[^?]+', current_url)[0]
 		# Find the total number of reviews so that we can decide how many urls to scrape next
 		text = response.xpath('//span[@class = "review-count rating-qualifier"]/text()').extract_first()
-		total = map(lambda x: int(x), re.findall('\d+', text))
-		print(list(total))
+		#total = map(lambda x: int(x), re.findall('\d+', text))
+		total = int(re.findall('\d+', text)[0])
+		restaurant_review_urls = [truncated_url + '?start=' + str(x) for x in range(0, total, 20)]
+
+		# Yield the requests to the restaurant reviews pages,
+		# using parse_restaurant_reviews_page function to parse the response
+		for url in restaurant_review_urls:
+			yield Request(url=url, callback=self.parse_restaurant_reviews_page)
+
+	def parse_restaurant_reviews_page(self, response):
+		print('on a reviews page')
 		
 
 
