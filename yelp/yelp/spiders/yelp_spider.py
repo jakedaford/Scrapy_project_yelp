@@ -54,9 +54,7 @@ class YelpSpider(Spider):
 	def parse_restaurant_reviews_page(self, response):
 		reviews = response.xpath('//div[@class = "review review--with-sidebar"]')
 		restaurant = response.xpath('//div[@class = "biz-page-header-left claim-status"]/div/h1/text()').extract_first().strip()
-		# this address is too much and will need to be munged later
 		address = response.xpath('//div[@class="mapbox"]//address/text()').extract_first().strip()
-		i = 0
 		for review in reviews:
 			rating = review.xpath('.//div[@class="biz-rating biz-rating-large clearfix"]/div/div/@title').extract_first()[0]
 			text = review.xpath('.//p[@lang="en"]/text()').extract()
@@ -68,11 +66,7 @@ class YelpSpider(Spider):
 			item['text'] = text
 			item['date'] = date
 			item['address'] = address
-			print(item)
-			print(i)
-			i += 1
-			print('='*50)
-			#yield item
+			yield item
 
 
 
