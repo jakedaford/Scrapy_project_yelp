@@ -55,22 +55,24 @@ class YelpSpider(Spider):
 		reviews = response.xpath('//div[@class = "review review--with-sidebar"]')
 		restaurant = response.xpath('//div[@class = "biz-page-header-left claim-status"]/div/h1/text()').extract_first().strip()
 		# this address is too much and will need to be munged later
-		address = response.xpath('//address/text()').extract()
-		print(restaurant)
+		address = response.xpath('//div[@class="mapbox"]//address/text()').extract_first().strip()
+		i = 0
+		for review in reviews:
+		# 	rating = review.xpath('.//div[@class="biz-rating biz-rating-large clearfix]/div/div/@title"]')
+			text = review.xpath('.//p[@lang="en"]/text()').extract()
+			date = review.xpath('.//span[@class="rating-qualifier"]/text()').extract_first().strip()
 
-		# for review in reviews:
-		# 	rating = 
-		# 	text = 
-		# 	date = review.xpath('.//span[@class="rating-qualifier"]/text()').extract_first().strip()
-
-		# 	item = YelpItem()
-		# 	item['restaurant'] = restaurant
+			item = YelpItem()
+			item['restaurant'] = restaurant
 		# 	item['rating'] = rating
-		# 	item['text'] = text
-		# 	item['date'] = date
-		#	item['address'] = address
-
-		# 	yield item
+			item['text'] = text
+			item['date'] = date
+			item['address'] = address
+			print(item)
+			print(i)
+			i += 1
+			print('='*50)
+			#yield item
 
 
 
