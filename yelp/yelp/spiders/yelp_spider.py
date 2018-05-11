@@ -5,7 +5,7 @@ import re
 class YelpSpider(Spider):
 	name = 'yelp_spider'
 	allowed_urls = ['https://www.yelp.com/']
-	start_urls = ['https://www.yelp.com/search?find_desc=indian&find_loc=10001&start=0']
+	start_urls = ['https://www.yelp.com/search?find_desc=thai&find_loc=10001&start=0']
 
 	def parse(self, response):
 		# Find the total number of pages in the result so that we can decide how many urls to scrape next
@@ -13,7 +13,7 @@ class YelpSpider(Spider):
 		_, _, total = map(lambda x: int(x), re.findall('\d+', text))
 		
 		# list comprehension to construct all the urls
-		result_urls = ['https://www.yelp.com/search?find_desc=indian&find_loc=10001&start=' + str(x) for x in range(0, total, 10)]
+		result_urls = ['https://www.yelp.com/search?find_desc=thai&find_loc=10001&start=' + str(x) for x in range(0, total, 10)]
 
 		# Yield the requests to different search result urls, 
 		# using parse_result_page function to parse the response.
