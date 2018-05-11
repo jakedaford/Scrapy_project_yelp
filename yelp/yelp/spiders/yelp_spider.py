@@ -58,13 +58,13 @@ class YelpSpider(Spider):
 		address = response.xpath('//div[@class="mapbox"]//address/text()').extract_first().strip()
 		i = 0
 		for review in reviews:
-		# 	rating = review.xpath('.//div[@class="biz-rating biz-rating-large clearfix]/div/div/@title"]')
+			rating = review.xpath('.//div[@class="biz-rating biz-rating-large clearfix"]/div/div/@title').extract_first()[0]
 			text = review.xpath('.//p[@lang="en"]/text()').extract()
 			date = review.xpath('.//span[@class="rating-qualifier"]/text()').extract_first().strip()
 
 			item = YelpItem()
 			item['restaurant'] = restaurant
-		# 	item['rating'] = rating
+			item['rating'] = rating
 			item['text'] = text
 			item['date'] = date
 			item['address'] = address
