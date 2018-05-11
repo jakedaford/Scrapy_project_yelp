@@ -13,7 +13,7 @@ class YelpSpider(Spider):
 		_, _, total = map(lambda x: int(x), re.findall('\d+', text))
 		
 		# list comprehension to construct all the urls
-		result_urls = ['https://www.yelp.com/search?find_desc=indian&find_loc=10001&start=' + str(x) for x in range(0, 2, 10)]
+		result_urls = ['https://www.yelp.com/search?find_desc=indian&find_loc=10001&start=' + str(x) for x in range(0, total, 10)]
 
 		# Yield the requests to different search result urls, 
 		# using parse_result_page function to parse the response.
@@ -44,7 +44,7 @@ class YelpSpider(Spider):
 		text = response.xpath('//span[@class = "review-count rating-qualifier"]/text()').extract_first()
 		#total = map(lambda x: int(x), re.findall('\d+', text))
 		total = int(re.findall('\d+', text)[0])
-		restaurant_review_urls = [truncated_url + '?start=' + str(x) for x in range(0, 2, 20)]
+		restaurant_review_urls = [truncated_url + '?start=' + str(x) for x in range(0, total, 20)]
 
 		# Yield the requests to the restaurant reviews pages,
 		# using parse_restaurant_reviews_page function to parse the response
